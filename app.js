@@ -1,25 +1,46 @@
-'use strict'
+import Fastify from 'fastify';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+import Autoload from 'fastify-autoload'
 
-const path = require('path')
-const AutoLoad = require('fastify-autoload')
+const app = Fastify({
+    logger:true
+});
 
-module.exports = async function (fastify, opts) {
-  // Place here your custom code!
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-  // Do not touch the following lines
+export default async function (app, opts) {
+    app.register(Autoload, {
+        dir: join(__dirname, "routes")
+    })
 
-  // This loads all plugins defined in plugins
-  // those should be support plugins that are reused
-  // through your application
-  fastify.register(AutoLoad, {
-    dir: path.join(__dirname, 'plugins'),
-    options: Object.assign({}, opts)
-  })
+    app.register(Autoload, {
+        dir: join(__dirname, "plugins")
+    })
 
-  // This loads all plugins defined in routes
-  // define your routes in one of these
-  fastify.register(AutoLoad, {
-    dir: path.join(__dirname, 'routes'),
-    options: Object.assign({}, opts)
-  })
+    app.get('/', async function (request, reply) {
+        reply.type('application/json').code(200)
+        return { hello: 'world' }
+    })
+
+    app.get('/post', async (req, res) => {
+        await app.prisma.user.create({
+            data: {
+                name: 'Alice',
+                email: 'alice@prisma.io',
+                posts: {
+                    create: { title: 'Hello World' },
+                },
+                profile: {
+                    create: { bio: 'I like turtles' },
+                },
+            },
+        })
+        return "Successful";
+    })
+
+    app.listen(3000, (err, address) => {
+        if(err) throw err;
+    })
 }

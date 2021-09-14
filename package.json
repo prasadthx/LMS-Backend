@@ -1,13 +1,11 @@
 {
-  "name": "Fastify",
+  "name": "lms-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "directories": {
-    "test": "test"
-  },
+  "description": "Learning Management System Backend",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "tap \"test/**/*.test.js\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "fastify start -l info app.js",
     "dev": "fastify start -w -l info -P app.js"
   },
@@ -15,7 +13,6 @@
     "type": "git",
     "url": "git+https://github.com/prasadthx/LMS-Backend.git"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -23,13 +20,14 @@
   },
   "homepage": "https://github.com/prasadthx/LMS-Backend#readme",
   "dependencies": {
-    "fastify": "^3.0.0",
+    "@prisma/client": "^3.0.2",
+    "fastify": "^3.21.0",
+    "fastify-autoload": "^3.8.1",
+    "fastify-cli": "^2.13.0",
     "fastify-plugin": "^3.0.0",
-    "fastify-autoload": "^3.3.1",
-    "fastify-sensible": "^3.1.0",
-    "fastify-cli": "^2.13.0"
+    "fastify-sensible": "^3.1.1"
   },
   "devDependencies": {
-    "tap": "^15.0.9"
+    "prisma": "^3.0.2"
   }
 }
